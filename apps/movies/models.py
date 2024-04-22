@@ -2,12 +2,10 @@ from django.db import models
 from django.urls import reverse_lazy
 
 
-# Create your models here.
-
 class BaseName(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre')
-    created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
@@ -22,6 +20,7 @@ class Categories(BaseName):
     class Meta:
         verbose_name = 'Categoria'
         verbose_name_plural = 'Categorias'
+        app_label = 'movies'  # Explicitly define the app label
 
     def get_delete_url_category(self):
         return reverse_lazy('movies:category-delete', kwargs={'pk': self.pk})
@@ -39,6 +38,7 @@ class Movies(BaseName):
     class Meta:
         verbose_name = 'Pelicula'
         verbose_name_plural = 'Peliculas'
+        app_label = 'movies'  # Explicitly define the app label
 
     def get_edit_url(self):
         return reverse_lazy('movies:movies-edit', kwargs={'pk': self.pk})

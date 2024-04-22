@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'widget_tweaks',
     # registar nuestra aplicacion
-    'apps.movies'
+    'apps.movies.apps',
+    #'apps.movies.urls',
 ]
 
 MIDDLEWARE = [

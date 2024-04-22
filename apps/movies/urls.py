@@ -1,5 +1,4 @@
-
-from django.conf.urls import url, include
+from django.urls import path, include
 from apps.movies import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -7,24 +6,23 @@ from django.conf.urls.static import static
 app_name = 'movies'
 
 movies_patterns = [
-    url(r'^inicio/$', views.movie_list, name='home'),
-    url(r'^(?P<pk>[0-9]+)/$', views.movie_detail, name='movies-detail'),
-    url(r'^crear/$', views.movie_create, name='movies-create'),
-    url(r'^crear-categoria/$', views.category_create, name='category-create'),
-    url(r'^(?P<pk>[0-9]+)/editar/$', views.movie_update, name='movies-edit'),
-    url(r'^(?P<pk>[0-9]+)/eliminar/$', views.movie_delete, name='movies-delete')
-    
+    path('inicio/', views.movie_list, name='home'),
+    path('<int:pk>/', views.movie_detail, name='movies-detail'),
+    path('crear/', views.movie_create, name='movies-create'),
+    path('crear-categoria/', views.category_create, name='category-create'),
+    path('<int:pk>/editar/', views.movie_update, name='movies-edit'),
+    path('<int:pk>/eliminar/', views.movie_delete, name='movies-delete')
 ]
 
 categories_patterns = [
-    url(r'^(?P<pk>[0-9]+)/editar/$', views.category_update, name='category-edit'),
-    url(r'^(?P<pk>[0-9]+)/eliminar/$', views.category_delete, name='category-delete')
-]    
+    path('<int:pk>/editar/', views.category_update, name='category-edit'),
+    path('<int:pk>/eliminar/', views.category_delete, name='category-delete')
+]
 
 urlpatterns = [
-    url(r'^$', views.log_in, name='log-in'),
-    url(r'^log-out/$', views.log_out, name='log-out'),
-    url(r'^categorias/$', views.category_list, name='category-list'),
-    url(r'^categorias/', include(categories_patterns)),
-    url(r'^peliculas/', include(movies_patterns))
+    path('', views.log_in, name='log-in'),
+    path('log-out/', views.log_out, name='log-out'),
+    path('categorias/', views.category_list, name='category-list'),
+    path('categorias/', include(categories_patterns)),
+    path('peliculas/', include(movies_patterns)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
